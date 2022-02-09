@@ -1,0 +1,96 @@
+{% extends "auctions/layout.html" %}
+
+{% block title %} {{listing.name}} {% endblock %}
+
+{% block body %}
+
+<div class="item">
+    <h2>{{ listing.name }}</h2>
+    <div class="item-view">
+        <div class="item-info">
+            <img src= "{{ listing.imageURL }}" width="300" height="auto">
+            <div class="details">
+                <p>Category of the item: {{ listing.category }}</p>
+                <p>Details: {{ listing.description }}</p>
+                <p>Starting bid {{ listing.startingPrice }} $</p>
+                <p>Current bid: 
+                    {% if listing.currentBid is None %} 
+                        There's no bids yet..
+                    {% elif listing.buyer is None %}
+                        {{ listing.currentBid }} 
+                    {% else %}
+                        {% if listing.creator == user %}
+                            It was sold to {{listing.buyer}} for {{ listing.currentBid }}
+                        {% elif listing.buyer == user %}
+                            Your bid was the highest, you won it
+                        {% else %}
+                            Sorry, it's sold
+                        {% endif %}
+                    {% endif %} 
+                </p>
+                {% if listing.isActive is False %}
+                    <p>Buyer: {{ listing.buyer }}</p>
+                {% endif %}
+                <p>Created by {{ listing.creator }}</p>
+                <p class="created">Created {{ listing.created }}</p>
+            </div>
+        </div>
+        <div class="bid">
+            {% if user.is_authenticated  %}
+                
+                <div>
+                {% if listing.isActive %}
+                    <form action="{% url 'bid' listing.id %}" method="post">
+                        {% csrf_token %}
+                        {{ currentBid }}
+                        <p>{{ message }} </p>
+                        <input type="submit" value="Submit my bid!">                  
+                    </form>
+                {% endif %}    
+                </div>
+                
+                <div class="watchlist">
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'alter_watchlist' listing.id %}">
+                    {% else %}
+                        <a href="{% url 'login' %}">
+                    {% endif %}
+                        {% if listing.is_watched %}
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Love_Heart_symbol.svg/834px-Love_Heart_symbol.svg.png" width="20px" height="auto">Remove from my watchlist
+                        {% else %}
+                            <img src="https://www.iconpacks.net/icons/1/free-heart-icon-492-thumb.png" width="20px" height="auto">Add to my watchlist
+                        {% endif %}
+                    </a>
+                </div>
+            {% else %}
+                <p><a href="{% url 'login' %}">Login, please, to set your bid and add the item to watchlist</a></p>
+            {% endif %}
+        </div>
+    </div>
+    {% if user == listing.creator and listing.isActive %}
+        <div>
+            <a href="{% url 'close' listing.id %}"> Close the auction </a>
+        </div>
+    {% endif %}
+
+    <div>
+        {% if user.is_authenticated  %}
+        <form action="{% url 'comment' listing.id %}" method="post">
+            {% csrf_token %}
+            {{ commentForm}} 
+            <input type="submit" value="Submit">
+        </form>
+        {% endif %}
+        <ul class="comments">
+            {% for comment in listing.listing_comment.all %}
+            <li>
+                <p> {{ comment.comment }} </p>
+                <p> commented by {{ comment.user }} </p>
+                <p>{{ comment.created }}</p>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends "auctions/layout.html" %}
+
+{% block title %}Active listings{% endblock %}
+
+{% block body %}
+
+    <h2>Categories</h2>
+    <div class="categories-listings">
+        <ul class="categories">
+            {% for category in categories %}
+            <li>
+                <p><a href="{% url 'category' category.id %}">{{ category }}</a></p>
+            </li>
+            {% endfor %}
+            <li>
+                <p>Add new category:</p>
+                <form action="{% url 'newCategory' %}" method="post">
+                    {% csrf_token %}
+                    {{ categoryform }}
+                    <input type="submit" value="Submit">
+                </form>
+            </li>
+        </ul> 
+        <ul class="listings">
+            {% for listing in listings %}
+            <li>
+                <h3><a href="{% url 'listing' listing.id %}">{{ listing.name }}</a></h3>
+                <img src= "{{ listing.imageURL }}" width="300" height="auto">
+                <p>Starting bid {{ listing.startingPrice }} $</p>
+                <p>Current bid: {{ listing.currentBid }} $</p>
+                <p class="created">Created {{ listing.created }}</p>
+            </li>
+            {% endfor %}
+        </ul> 
+    </div>
+    
+{% endblock %}

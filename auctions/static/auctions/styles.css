@@ -1,0 +1,125 @@
+body {
+    width: 90vw;
+}
+
+a, a:visited {
+    text-decoration: none;
+    color: black;
+}
+
+a:hover {
+    text-decoration: none;
+    color: black;
+    font-size: larger;
+    padding: 5px;
+}
+
+.listings {
+    list-style: none;
+    width: 80vw;
+    margin: 30px auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+}
+
+.listings li {
+    list-style: none;
+    border: 0.5px grey solid;
+    border-radius: 10px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    margin-left: 20px;
+    margin-top: 20px;
+    width: 400px;
+}
+
+ .form {
+    display: flex;
+    flex-direction: column;
+    width: 500px;
+    padding-left: 50px;
+    padding-bottom: 100px;
+}
+
+input[type="submit"] {
+    background-color: skyblue;
+    box-shadow: none;
+    padding: 10px 15px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 5px;
+}
+
+.created {
+    font-size: 10px;
+}
+
+.item {
+    width: 800px;
+    margin: 0 auto;
+}
+
+.item-view {
+    display: grid;
+    grid-template-columns: 450px 1fr;
+}
+
+.item-info {
+    position: relative;
+}
+
+.bid {
+    position: relative;
+}
+
+.buyerbid {
+    margin: 10px 10px;
+    border-radius: 5px;
+    box-shadow: none;
+    border: 1px solid grey;
+}
+
+.comments {
+    list-style: none;
+    width: 45vw;
+    display: flex;
+    flex-direction: row;
+    margin: 0;
+    padding: 0;
+    flex-wrap: wrap;    
+}
+
+.comments li {
+    list-style: none;
+    border-top: 0.5px grey solid;
+    margin-top: 20px;
+    width: 45vw;
+}
+
+.categories-listings {
+    display: grid;
+    grid-template-columns: 150px 1fr;
+}
+
+.categories {
+    list-style: none;
+    margin-top: 10px;
+    width: 150px;
+}
+
+.categories li {
+    list-style: none;
+}
+
+.categories form {
+    width: 100px;
+    padding: none;
+    
+}
+
+.categories input {
+    width: 100px;
+}
