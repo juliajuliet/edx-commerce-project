@@ -13,10 +13,9 @@
             </li>
             {% endfor %}
             <li>
-                <p>Add new category:</p>
-                <form action="{% url 'newCategory' %}" method="post">
+                <form class="category-form" action="{% url 'categories' %}" method="post">
                     {% csrf_token %}
-                    {{ categoryform }}
+                    {{ form }}
                     <input type="submit" value="Submit">
                 </form>
             </li>

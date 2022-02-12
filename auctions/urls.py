@@ -17,8 +17,7 @@ urlpatterns = [
     path("listing/<int:listing_id>/bid", views.bid, name="bid"),
     path("listing/<int:listing_id>/close", views.close, name="close"),
     path("categories", views.categories, name="categories"),
-    path("categories/<int:category_id>", views.category, name="category"),
-    path("categories/newcategory", views.newCategory, name="newCategory"),
+    path("categories/<int:category_id>", views.category, name="category")
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:

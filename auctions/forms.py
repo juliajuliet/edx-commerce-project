@@ -29,9 +29,3 @@ class NewCategory(forms.ModelForm):
     class Meta:
         model = Category
         fields = ["category"]
-        widgets = {
-            'category': forms.TextInput(attrs={
-            'class': 'form-control',
-            'placeholder': 'Your category',
-            })
-        }

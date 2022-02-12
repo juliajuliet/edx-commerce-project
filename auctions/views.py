@@ -170,11 +170,20 @@ def close(request, listing_id):
     listing = Listing.objects.get(id=listing_id)
     if listing.isActive == True and request.user == listing.creator:
         listing.isActive = False
-        listing.buyer = Bid.objects.filter(auction=listing).last().buyer
-        listing.save()
-        return render(request, "auctions/listing.html", {
-            "listing": listing
-        })
+        try:
+            buyer = Bid.objects.filter(auction=listing).last().buyer
+            listing.buyer = buyer
+            listing.save()
+            return render(request, "auctions/listing.html", {
+                "listing": listing,
+                "buyermessage": listing.buyer
+            })
+        except AttributeError:
+            buyermessage = "No one set the bid. No buyers :("
+            return render(request, "auctions/listing.html", {
+                "listing": listing,
+                "buyermessage": buyermessage
+            })
     else: 
         return render(request, "auctions/listing.html", {
             "listing": listing
@@ -183,10 +192,21 @@ def close(request, listing_id):
 def categories(request):
     categories = Category.objects.all()
     listings = Listing.objects.all()
-    return render(request, "auctions/categories.html", {
-            "listings": listings,
-            "categories": categories
-    })
+    if request.method == "POST":
+        form = NewCategory(request.POST)
+        if form.is_valid():
+            form.save(commit=True)
+            return render(request, "auctions/categories.html", {
+                "listings": listings,
+                "categories": categories,
+                'form': NewCategory()
+            })
+    else:
+        return render(request, "auctions/categories.html", {
+                "listings": listings,
+                "categories": categories,
+                'form': NewCategory()
+        })
 
 def category(request, category_id):
     category = Category.objects.get(id=category_id)
@@ -196,20 +216,3 @@ def category(request, category_id):
             "category": category,
             "categories": Category.objects.all()
     })
-
-def newCategory(request):
-    if request.method == "POST":
-        form = NewCategory(request.POST)
-        if form.is_valid:
-            category = form.save(commit=False)
-            category.save()
-            return render(request, "auctions/categories.html", {
-                'categories': Category.objects.all(),
-                'category': category,
-                'categoryform': NewCategory()
-            })
-    else:
-        return render(request, "auctions/categories.html", {
-                'categories': Category.objects.all(),
-                'categoryform': NewCategory()
-        })

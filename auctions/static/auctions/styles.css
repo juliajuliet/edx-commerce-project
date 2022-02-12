@@ -114,12 +114,17 @@ input[type="submit"] {
     list-style: none;
 }
 
-.categories form {
-    width: 100px;
+.category-form {
+    width: 150px;
     padding: none;
-    
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
-.categories input {
-    width: 100px;
+.category-input {
+    width: 150px;
+    margin: 20px 0;
+    padding: 20px 20px;
+    border-radius: 5px;
 }
