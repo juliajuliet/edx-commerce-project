@@ -120,7 +120,9 @@ def listing(request, listing_id):
         })
     else:
         return render(request, "auctions/listing.html", {
-            "listing": listing
+            "listing": listing,
+            "commentForm": Comments(),
+            "currentBid": BuyerBid()
         })
 
 def comment(request, listing_id):
@@ -134,7 +136,8 @@ def comment(request, listing_id):
             content.save()
             return render(request, "auctions/listing.html", {
                 "listing": listing,
-                "commentForm": Comments()
+                "commentForm": Comments(),
+                "currentBid": BuyerBid()
             })
     else:
         return render(request, "auctions/listing.html", {
@@ -156,6 +159,7 @@ def bid(request, listing_id):
         listing.save()
         return render(request, "auctions/listing.html", {
             "listing": listing,
+            "commentForm": Comments(),
             "currentBid": BuyerBid()
         })
     else: 
@@ -163,6 +167,7 @@ def bid(request, listing_id):
         return render(request, "auctions/listing.html", {
             "listing": listing,
             "currentBid": BuyerBid(),
+            "commentForm": Comments(),
             "message": message
         })
 
@@ -176,12 +181,14 @@ def close(request, listing_id):
             listing.save()
             return render(request, "auctions/listing.html", {
                 "listing": listing,
+                "commentForm": Comments(),
                 "buyermessage": listing.buyer
             })
         except AttributeError:
             buyermessage = "No one set the bid. No buyers :("
             return render(request, "auctions/listing.html", {
                 "listing": listing,
+                "commentForm": Comments(),
                 "buyermessage": buyermessage
             })
     else: 
@@ -214,5 +221,6 @@ def category(request, category_id):
     return render(request, "auctions/categories.html", {
             "listings": listings,
             "category": category,
+            'form': NewCategory(),
             "categories": Category.objects.all()
     })
